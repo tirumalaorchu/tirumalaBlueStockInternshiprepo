@@ -88,3 +88,55 @@ CREATE TABLE IF NOT EXISTS fact_aum (
     num_schemes INTEGER,
     FOREIGN KEY (date_key) REFERENCES dim_date(date_key)
 );
+
+CREATE TABLE IF NOT EXISTS fact_benchmark_indices (
+    benchmark_id INTEGER PRIMARY KEY,
+    date_key TEXT NOT NULL,
+    index_name TEXT,
+    close_value REAL,
+    FOREIGN KEY (date_key) REFERENCES dim_date(date_key)
+);
+
+CREATE TABLE IF NOT EXISTS fact_monthly_sip_inflows (
+    sip_inflow_id INTEGER PRIMARY KEY,
+    date_key TEXT NOT NULL,
+    sip_inflow_crore REAL,
+    active_sip_accounts_crore REAL,
+    new_sip_accounts_lakh REAL,
+    sip_aum_lakh_crore REAL,
+    yoy_growth_pct REAL,
+    FOREIGN KEY (date_key) REFERENCES dim_date(date_key)
+);
+
+CREATE TABLE IF NOT EXISTS fact_category_inflows (
+    category_inflow_id INTEGER PRIMARY KEY,
+    date_key TEXT NOT NULL,
+    category TEXT,
+    net_inflow_crore REAL,
+    FOREIGN KEY (date_key) REFERENCES dim_date(date_key)
+);
+
+CREATE TABLE IF NOT EXISTS fact_industry_folio_count (
+    folio_count_id INTEGER PRIMARY KEY,
+    date_key TEXT NOT NULL,
+    total_folios_crore REAL,
+    equity_folios_crore REAL,
+    debt_folios_crore REAL,
+    hybrid_folios_crore REAL,
+    others_folios_crore REAL,
+    FOREIGN KEY (date_key) REFERENCES dim_date(date_key)
+);
+
+CREATE TABLE IF NOT EXISTS fact_portfolio_holdings (
+    holding_id INTEGER PRIMARY KEY,
+    date_key TEXT NOT NULL,
+    amfi_code INTEGER,
+    stock_symbol TEXT,
+    stock_name TEXT,
+    sector TEXT,
+    weight_pct REAL,
+    market_value_cr REAL,
+    current_price_inr REAL,
+    FOREIGN KEY (date_key) REFERENCES dim_date(date_key),
+    FOREIGN KEY (amfi_code) REFERENCES dim_fund(amfi_code)
+);
